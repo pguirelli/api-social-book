@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,8 @@ public class BooksController {
     private BooksRepository booksRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Book> list() {
-        return booksRepository.findAll();
+    public ResponseEntity<List<Book>> list() {
+        return ResponseEntity.status(HttpStatus.OK).body(booksRepository.findAll());
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -50,13 +51,17 @@ public class BooksController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         booksRepository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void update(@RequestBody Book book, @PathVariable("id") Long id) {
+    public ResponseEntity<Void> update(@RequestBody Book book, @PathVariable("id") Long id) {
         book.setId(id);
         booksRepository.save(book);
+
+        return ResponseEntity.noContent().build();
     }
 }
