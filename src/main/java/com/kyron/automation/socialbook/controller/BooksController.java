@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kyron.automation.socialbook.model.Book;
 import com.kyron.automation.socialbook.services.BooksService;
-import com.kyron.automation.socialbook.services.exceptions.BookNotFoundException;
 
 @RestController
 @RequestMapping("/books")
@@ -43,12 +41,7 @@ public class BooksController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable("id") Long id) {
         Optional<Book> book = null;
-
-        try {
-            book = booksService.getBook(id);
-        } catch (BookNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        book = booksService.getBook(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }
@@ -63,12 +56,7 @@ public class BooksController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Book book, @PathVariable("id") Long id) {
         book.setId(id);
-
-        try {
-            booksService.update(book);
-        } catch (BookNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        booksService.update(book);
 
         return ResponseEntity.noContent().build();
     }

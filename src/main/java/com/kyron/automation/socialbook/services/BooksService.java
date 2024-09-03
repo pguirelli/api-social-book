@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.kyron.automation.socialbook.model.Book;
@@ -29,26 +28,23 @@ public class BooksService {
         Optional<Book> book = booksRepository.findById(id);
 
         if (book.isEmpty()) {
-            throw new BookNotFoundException("This book was not found.");
+            throw new BookNotFoundException();
         }
 
         return book;
     }
 
     public void delete(Long id) {
-        try {
-            booksRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new BookNotFoundException("This book was not found.");
-        }
+        verifyExists(id);
+        booksRepository.deleteById(id);
     }
 
     public void update(Book book) {
-        verifyExists(book);
+        verifyExists(book.getId());
         booksRepository.save(book);
     }
 
-    private void verifyExists(Book book) {
-        getBook(book.getId());
+    private void verifyExists(Long id) {
+        getBook(id);
     }
 }
