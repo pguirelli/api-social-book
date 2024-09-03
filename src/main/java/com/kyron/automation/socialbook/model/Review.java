@@ -2,16 +2,21 @@ package com.kyron.automation.socialbook.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
+@Entity
 public class Review {
 
-    @JsonInclude(Include.NON_NULL)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,10 +25,15 @@ public class Review {
     private String text;
 
     @JsonInclude(Include.NON_NULL)
-    private String user;
+    private String userName;
 
     @JsonInclude(Include.NON_NULL)
     private Date date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOOK_ID")
+    @JsonIgnore
+    private Book book;
 
     public Long getId() {
         return id;
@@ -41,12 +51,12 @@ public class Review {
         this.text = text;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Date getDate() {
@@ -55,6 +65,14 @@ public class Review {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 
 }

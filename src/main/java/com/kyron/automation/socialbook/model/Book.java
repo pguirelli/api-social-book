@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Book {
@@ -33,7 +33,7 @@ public class Book {
     private String summary;
 
     @JsonInclude(Include.NON_NULL)
-    @Transient
+    @OneToMany(mappedBy = "book")
     private List<Review> reviews;
 
     @JsonInclude(Include.NON_NULL)

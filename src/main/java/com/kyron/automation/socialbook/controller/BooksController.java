@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kyron.automation.socialbook.model.Book;
+import com.kyron.automation.socialbook.model.Review;
 import com.kyron.automation.socialbook.services.BooksService;
 
 @RestController
@@ -59,5 +60,14 @@ public class BooksController {
         booksService.update(book);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/reviews/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Void> addReview(@PathVariable("id") Long id, @RequestBody Review review) {
+        booksService.saveReview(id, review);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 }
