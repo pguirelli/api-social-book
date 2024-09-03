@@ -16,23 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.kyron.automation.socialbook.model.Book;
-import com.kyron.automation.socialbook.repository.BooksRepository;
+import com.kyron.automation.socialbook.services.BooksService;
+import com.kyron.automation.socialbook.services.exceptions.BookNotFoundException;
 
 @RestController
 @RequestMapping("/books")
 public class BooksController {
 
     @Autowired
-    private BooksRepository booksRepository;
+    private BooksService booksService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Book>> list() {
-        return ResponseEntity.status(HttpStatus.OK).body(booksRepository.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(booksService.list());
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> save(@RequestBody Book book) {
-        booksRepository.save(book);
+        booksService.save(book);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();
 
@@ -41,9 +42,11 @@ public class BooksController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable("id") Long id) {
-        Optional<Book> book = booksRepository.findById(id);
+        Optional<Book> book = null;
 
-        if (book.isEmpty()) {
+        try {
+            book = booksService.getBook(id);
+        } catch (BookNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
@@ -52,7 +55,7 @@ public class BooksController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        booksRepository.deleteById(id);
+        booksService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -60,7 +63,12 @@ public class BooksController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Book book, @PathVariable("id") Long id) {
         book.setId(id);
-        booksRepository.save(book);
+
+        try {
+            booksService.update(book);
+        } catch (BookNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
 
         return ResponseEntity.noContent().build();
     }
