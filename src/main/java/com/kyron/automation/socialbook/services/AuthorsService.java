@@ -22,7 +22,7 @@ public class AuthorsService {
     }
 
     public Author save(Author author) {
-        if(author.getId() != null){
+        if (author.getId() != null) {
             Optional<Author> a = authorsRepository.findById(author.getId());
 
             if (!a.isEmpty()) {
@@ -43,15 +43,17 @@ public class AuthorsService {
         return author;
     }
 
-    /*
     public void delete(Long id) {
         verifyExists(id);
-        booksRepository.deleteById(id);
+        authorsRepository.deleteById(id);
     }
 
-    public void update(Book book) {
-        verifyExists(book.getId());
-        booksRepository.save(book);
+    public void update(Author author) {
+        verifyExists(author.getId());
+        authorsRepository.save(author);
     }
-        */
+
+    private void verifyExists(Long id) {
+        getAuthor(id);
+    }
 }

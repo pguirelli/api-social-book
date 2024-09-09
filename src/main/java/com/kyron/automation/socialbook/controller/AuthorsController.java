@@ -38,7 +38,6 @@ public class AuthorsController {
         return ResponseEntity.created(uri).build();
     }
 
-    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getAuthor(@PathVariable("id") Long id) {
         Optional<Author> author = authorsService.getAuthor(id);
@@ -46,20 +45,19 @@ public class AuthorsController {
         return ResponseEntity.status(HttpStatus.OK).body(author);
     }
 
-    /*
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        booksService.delete(id);
+        authorsService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Book book, @PathVariable("id") Long id) {
-        book.setId(id);
-        booksService.update(book);
+    public ResponseEntity<Void> update(@RequestBody Author author, @PathVariable("id") Long id) {
+        author.setId(id);
+        authorsService.update(author);
 
         return ResponseEntity.noContent().build();
     }
-    */
+
 }

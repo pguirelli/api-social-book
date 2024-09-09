@@ -50,10 +50,6 @@ public class BooksService {
         booksRepository.save(book);
     }
 
-    private void verifyExists(Long id) {
-        getBook(id);
-    }
-
     public Review saveReview(Long bookId, Review review) {
         Book book = getBook(bookId).get();
 
@@ -67,5 +63,9 @@ public class BooksService {
         Book book = getBook(bookId).get();
 
         return book.getReviews();
+    }
+
+    private void verifyExists(Long id) {
+        getBook(id);
     }
 }
