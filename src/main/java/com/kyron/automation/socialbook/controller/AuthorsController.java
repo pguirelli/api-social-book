@@ -14,38 +14,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.kyron.automation.socialbook.model.Book;
-import com.kyron.automation.socialbook.model.Review;
-import com.kyron.automation.socialbook.services.BooksService;
+import com.kyron.automation.socialbook.model.Author;
+import com.kyron.automation.socialbook.services.AuthorsService;
 
 @RestController
-@RequestMapping("/books")
-public class BooksController {
+@RequestMapping("/authors")
+public class AuthorsController {
 
     @Autowired
-    private BooksService booksService;
+    private AuthorsService authorsService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Book>> list() {
-        return ResponseEntity.status(HttpStatus.OK).body(booksService.list());
+    public ResponseEntity<List<Author>> list() {
+        return ResponseEntity.status(HttpStatus.OK).body(authorsService.list());
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Book book) {
-        booksService.save(book);
+    public ResponseEntity<Void> save(@RequestBody Author author) {
+        authorsService.save(author);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(author.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
     }
 
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getBook(@PathVariable("id") Long id) {
-        Optional<Book> book = booksService.getBook(id);
+    public ResponseEntity<?> getAuthor(@PathVariable("id") Long id) {
+        Optional<Author> author = authorsService.getAuthor(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(book);
+        return ResponseEntity.status(HttpStatus.OK).body(author);
     }
 
+    /*
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         booksService.delete(id);
@@ -60,20 +61,5 @@ public class BooksController {
 
         return ResponseEntity.noContent().build();
     }
-
-    @RequestMapping(value = "/reviews/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Void> addReview(@PathVariable("id") Long id, @RequestBody Review review) {
-        booksService.saveReview(id, review);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-
-        return ResponseEntity.created(uri).build();
-    }
-
-    @RequestMapping(value = "/reviews/{id}", method = RequestMethod.GET)
-    public ResponseEntity<List<Review>> listReviews(@PathVariable("id") Long idBook) {
-        List<Review> reviews = booksService.listReviews(idBook);
-
-        return ResponseEntity.status(HttpStatus.OK).body(reviews);
-    }
+    */
 }
