@@ -70,4 +70,11 @@ public class BooksController {
 
         return ResponseEntity.created(uri).build();
     }
+
+    @RequestMapping(value = "/reviews/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Review>> listReviews(@PathVariable("id") Long idBook) {
+        List<Review> reviews = booksService.listReviews(idBook);
+
+        return ResponseEntity.status(HttpStatus.OK).body(reviews);
+    }
 }

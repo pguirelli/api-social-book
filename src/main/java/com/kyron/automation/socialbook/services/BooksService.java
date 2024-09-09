@@ -62,4 +62,10 @@ public class BooksService {
 
         return reviewsRepository.save(review);
     }
+
+    public List<Review> listReviews(Long bookId) {
+        Book book = getBook(bookId).get();
+
+        return book.getReviews();
+    }
 }
