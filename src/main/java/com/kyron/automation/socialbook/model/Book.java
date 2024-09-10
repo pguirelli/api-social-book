@@ -16,6 +16,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Book {
@@ -26,16 +29,21 @@ public class Book {
     private Long id;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field 'name' can't be empty.")
     private String name;
 
     @JsonInclude(Include.NON_NULL)
+    @NotNull(message = "The field 'publication' can't be empty.")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date publication;
 
     @JsonInclude(Include.NON_NULL)
+    @NotNull(message = "The field 'publisher' can't be empty.")
     private String publisher;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field 'summary' can't be empty.")
+    @Size(max = 1500, message = "The field 'summary' can't be more than 1500 characters.")
     private String summary;
 
     @JsonInclude(Include.NON_EMPTY)

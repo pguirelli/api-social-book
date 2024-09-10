@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import jakarta.persistence.Entity;
@@ -14,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Review {
@@ -23,9 +26,13 @@ public class Review {
     private Long id;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field 'text' can't be empty.")
+    @Size(max = 1500, message = "The field 'text' can't be more than 1500 characters.")
+    @JsonProperty("comment")
     private String text;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field 'userName' can't be empty.")
     private String userName;
 
     @JsonInclude(Include.NON_NULL)

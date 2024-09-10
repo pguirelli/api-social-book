@@ -17,6 +17,8 @@ import com.kyron.automation.socialbook.model.Book;
 import com.kyron.automation.socialbook.model.Review;
 import com.kyron.automation.socialbook.services.BooksService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/books")
 public class BooksController {
@@ -30,7 +32,7 @@ public class BooksController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Book book) {
+    public ResponseEntity<Void> save(@Valid @RequestBody Book book) {
         booksService.save(book);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();

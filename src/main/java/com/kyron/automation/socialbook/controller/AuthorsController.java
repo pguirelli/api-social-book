@@ -17,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.kyron.automation.socialbook.model.Author;
 import com.kyron.automation.socialbook.services.AuthorsService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/authors")
 public class AuthorsController {
@@ -30,7 +32,7 @@ public class AuthorsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Author author) {
+    public ResponseEntity<Void> save(@Valid @RequestBody Author author) {
         authorsService.save(author);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(author.getId()).toUri();

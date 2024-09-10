@@ -13,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Author {
@@ -23,13 +25,16 @@ public class Author {
     private Long id;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field 'name' can't be empty.")
     private String name;
 
     @JsonInclude(Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "The field 'born' can't be empty.")
     private Date born;
 
     @JsonInclude(Include.NON_NULL)
+    @NotNull(message = "The field 'nationality' can't be empty.")
     private String nationality;
 
     @JsonInclude(Include.NON_NULL)
