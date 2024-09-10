@@ -2,7 +2,6 @@ package com.kyron.automation.socialbook.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +40,7 @@ public class BooksController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getBook(@PathVariable("id") Long id) {
-        Optional<Book> book = booksService.getBook(id);
+        Book book = booksService.getBook(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }

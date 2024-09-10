@@ -3,6 +3,7 @@ package com.kyron.automation.socialbook.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -25,6 +26,7 @@ public class Author {
     private String name;
 
     @JsonInclude(Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date born;
 
     @JsonInclude(Include.NON_NULL)

@@ -3,6 +3,8 @@ package com.kyron.automation.socialbook.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -27,6 +29,7 @@ public class Book {
     private String name;
 
     @JsonInclude(Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date publication;
 
     @JsonInclude(Include.NON_NULL)
@@ -35,13 +38,14 @@ public class Book {
     @JsonInclude(Include.NON_NULL)
     private String summary;
 
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     @OneToMany(mappedBy = "book")
     private List<Review> reviews;
 
     @JsonInclude(Include.NON_NULL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHOR_ID")
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     private Author author;
 
     public Book() {

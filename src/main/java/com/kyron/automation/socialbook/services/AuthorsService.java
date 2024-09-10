@@ -23,9 +23,9 @@ public class AuthorsService {
 
     public Author save(Author author) {
         if (author.getId() != null) {
-            Optional<Author> a = authorsRepository.findById(author.getId());
+            Author a = authorsRepository.findById(author.getId()).get();
 
-            if (!a.isEmpty()) {
+            if (a != null) {
                 throw new AuthorAlreadyExistsException();
             }
         }

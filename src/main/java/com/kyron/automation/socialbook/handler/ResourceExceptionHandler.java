@@ -1,5 +1,6 @@
 package com.kyron.automation.socialbook.handler;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -52,5 +53,18 @@ public class ResourceExceptionHandler {
         error.setTimestamp(System.currentTimeMillis());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorDetails> handleDataIntegrityViolationException(DataIntegrityViolationException e,
+            HttpServletRequest request) {
+
+        ErrorDetails error = new ErrorDetails();
+        error.setStatus(400l);
+        error.setTitle("Invalid request.");
+        error.setDeveloperMessage("http://error.socialbooks.com/400");
+        error.setTimestamp(System.currentTimeMillis());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

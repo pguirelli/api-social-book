@@ -2,7 +2,6 @@ package com.kyron.automation.socialbook.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +29,10 @@ public class BooksService {
         return booksRepository.save(book);
     }
 
-    public Optional<Book> getBook(Long id) {
-        Optional<Book> book = booksRepository.findById(id);
+    public Book getBook(Long id) {
+        Book book = booksRepository.findById(id).get();
 
-        if (book.isEmpty()) {
+        if (book != null) {
             throw new BookNotFoundException();
         }
 
@@ -51,7 +50,7 @@ public class BooksService {
     }
 
     public Review saveReview(Long bookId, Review review) {
-        Book book = getBook(bookId).get();
+        Book book = getBook(bookId);
 
         review.setBook(book);
         review.setDate(new Date());
@@ -60,7 +59,7 @@ public class BooksService {
     }
 
     public List<Review> listReviews(Long bookId) {
-        Book book = getBook(bookId).get();
+        Book book = getBook(bookId);
 
         return book.getReviews();
     }
