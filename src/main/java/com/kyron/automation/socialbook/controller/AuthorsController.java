@@ -55,7 +55,7 @@ public class AuthorsController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Author author, @PathVariable("id") Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Author author, @PathVariable("id") Long id) {
         author.setId(id);
         authorsService.update(author);
 

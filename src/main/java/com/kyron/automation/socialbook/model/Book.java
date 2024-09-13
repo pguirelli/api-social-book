@@ -53,7 +53,7 @@ public class Book {
     @JsonInclude(Include.NON_NULL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHOR_ID")
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = { "applications", "hibernateLazyInitializer" })
     private Author author;
 
     public Book() {

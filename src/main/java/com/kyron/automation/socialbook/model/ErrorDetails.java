@@ -42,8 +42,4 @@ public class ErrorDetails {
         this.developerMessage = developerMessage;
     }
 
-
-
-
-
 }
