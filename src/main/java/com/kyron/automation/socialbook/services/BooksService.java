@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.kyron.automation.socialbook.model.Book;
@@ -57,7 +58,9 @@ public class BooksService {
         booksRepository.save(book);
     }
 
-    @CacheEvict(value = "books", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "reviews", allEntries = true),
+            @CacheEvict(value = "books", allEntries = true) })
     public Review saveReview(Long bookId, Review review) {
         Book book = getBook(bookId).get();
 
@@ -67,6 +70,7 @@ public class BooksService {
         return reviewsRepository.save(review);
     }
 
+    @Cacheable(value = "reviews")
     public List<Review> listReviews(Long bookId) {
         Book book = getBook(bookId).get();
 
